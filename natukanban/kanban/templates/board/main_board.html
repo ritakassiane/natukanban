@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Tarefas{% endblock %}
+
+{% block content %}
+    <h1>Boards:</h1>
+    {% for board in main_board %}
+    <p><b>Name:</b> {{ board.name }}</p>
+    <hr><br><br>
+    {% endfor %}
+    <h1>Columns:</h1>
+    {% for column in columns %}
+    <p><b>Title:</b> {{ column.title }}</p>
+    <hr><br>
+    {% endfor %}
+    <h1>Taks:</h1>
+    {% for task in tasks %}
+    <p><b>Title:</b> {{ task.title }}</p>
+    <hr><br>
+    {% endfor %}
+{% endblock %}
