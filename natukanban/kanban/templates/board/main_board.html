@@ -41,6 +41,7 @@
                                 <br>
                                 <a class="btn btn-success" href="{% url 'done_task' task.id %}">Concluir</a>
                                 <a class="btn btn-danger" href="{% url 'delete_task' task.id %}">Deletar</a>
+                                <a class="btn btn-primary" href="{% url 'edit_task' task.id %}">Editar</a>
                             </p>
                             </div>
                         </div>
@@ -68,6 +69,8 @@
                                 <br>
                                 <br>
                                 <a class="btn btn-success" href="{% url 'done_task' task.id %}">Concluir</a>
+                                <a class="btn btn-danger" href="{% url 'delete_task' task.id %}">Deletar</a>
+                                <a class="btn btn-primary" href="{% url 'edit_task' task.id %}">Editar</a>
                             </p>
                             </div>
                         </div>
@@ -95,6 +98,8 @@
                                     <br>
                                     <br>
                                     <a class="btn btn-success" href="{% url 'done_task' task.id %}">Concluir</a>
+                                    <a class="btn btn-danger" href="{% url 'delete_task' task.id %}">Deletar</a>
+                                    <a class="btn btn-primary" href="{% url 'edit_task' task.id %}">Editar</a>
                                 </p>
                                 </div>
                             </div>
@@ -122,6 +127,8 @@
                                         <br>
                                         <br>
                                         <a class="btn btn-success" href="{% url 'done_task' task.id %}">Concluir</a>
+                                        <a class="btn btn-danger" href="{% url 'delete_task' task.id %}">Deletar</a>
+                                        <a class="btn btn-primary" href="{% url 'edit_task' task.id %}">Editar</a>
                                     </p>
                                     </div>
                                 </div>

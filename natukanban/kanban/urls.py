@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.board_main, name='board_main' ),
     path('<int:task_id>/concluir/', views.done_task, name='done_task'),
     path('<int:task_id>/excluir/', views.delete_task, name='delete_task'),
+    path('<int:task_id>/editar/', views.edit_task, name='edit_task'),
 ]

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Board, Column, Task
-from .forms import AddTask
+from .forms import AddTask, EditTaskForm
 
 def title_to_dict(title_list):
     result = {}
@@ -53,3 +53,18 @@ def delete_task(request, task_id):
     tarefa = get_object_or_404(Task, id=task_id)
     tarefa.delete()
     return redirect('board_main')
+
+def edit_task(request, task_id):
+    tarefa = get_object_or_404(Task, id=task_id)
+    if request.method == 'POST':
+        form = EditTaskForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            tarefa.description = cd['description']
+            tarefa.category = cd['category']
+            tarefa.title = cd['title']
+            tarefa.save()
+            return redirect('board_main')
+    else:
+        form = EditTaskForm(initial={'task':tarefa.description, 'category':tarefa.category, 'title':tarefa.title})
+    return render(request, 'board/edit_task.html', {'task':tarefa, 'form':form})
