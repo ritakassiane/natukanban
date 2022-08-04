@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Board, Column, Task
 from .forms import AddTask
 
@@ -40,3 +40,10 @@ def board_main(request):
 
     return render(request, 'board/main_board.html', {'main_board':main_board, 'columns': columns, 'tasks':tasks, 'task_in_progress':task_in_progress, 'task_to_do': task_to_do, 'task_done': task_done, 'task_do_today': task_do_today, 'form':form})
 
+# novo
+def done_task(request, task_id):
+    tarefa = get_object_or_404(Task, id=task_id)
+    status_ = Column.objects.get(title='Done')
+    tarefa.status = status_
+    tarefa.save()
+    return redirect('board_main')
