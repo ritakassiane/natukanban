@@ -37,6 +37,7 @@
                             <div class="modal-body">
                             <p>
                                 {{ task.description }}
+                                <a class="btn btn-success" href="{% url 'done_task' task.id %}">Concluir</a>
                             </p>
                             </div>
                         </div>
