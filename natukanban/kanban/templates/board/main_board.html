@@ -3,19 +3,116 @@
 {% block title %}Tarefas{% endblock %}
 
 {% block content %}
-    <h1>Boards:</h1>
-    {% for board in main_board %}
-    <p><b>Name:</b> {{ board.name }}</p>
-    <hr><br><br>
+<div class="row">
+    
+    {% for column in columns %}      
+        <div class="col">
+            <div class="title">
+                <p><b>{{ column.title }}</b> </p>
+            </div>
+            <div class="tasks">
+            {% if column.title == 'In progress' %}
+                {% for task in task_in_progress %}      
+                    <button type="button" class="list-group-item list-group-item-warning list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
+                        <h5>{{ task.title }}</h5>
+                        <small>Criado em: {{ task.created_date.day }}/{{ task.created_date.month }}/{{ task.created_date.year }}</small>
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{ task.title }} | {{ task.categoria|capfirst }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            <p>
+                                {{ task.description }}
+                            </p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% if column.title == 'Done' %}
+                {% for task in task_done %}      
+                    <button type="button" class="list-group-item list-group-item-success list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
+                        <h5>{{ task.title }}</h5>
+                        <small>Criado em: {{ task.created_date.day }}/{{ task.created_date.month }}/{{ task.created_date.year }}</small>
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{ task.title }} | {{ task.categoria|capfirst }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            <p>
+                                {{ task.description }}
+                            </p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% else %}
+                    {% if column.title == 'To do' %}
+                    {% for task in task_to_do %}      
+                        <button type="button" class="list-group-item list-group-item-danger list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
+                            <h5>{{ task.title }}</h5>
+                            <small>Criado em: {{ task.created_date.day }}/{{ task.created_date.month }}/{{ task.created_date.year }}</small>
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{{ task.title }} | {{ task.categoria|capfirst }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                <p>
+                                    {{ task.description }}
+                                </p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                        {% if column.title == 'Do Today' %}
+                        {% for task in task_do_today %}      
+                            <button type="button" class="list-group-item list-group-item-primary list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
+                                <h5>{{ task.title }}</h5>
+                                <small>Criado em: {{ task.created_date.day }}/{{ task.created_date.month }}/{{ task.created_date.year }}</small>
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">{{ task.title }} | {{ task.categoria|capfirst }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <p>
+                                        {{ task.description }}
+                                    </p>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            </div>
+        </div>
     {% endfor %}
-    <h1>Columns:</h1>
-    {% for column in columns %}
-    <p><b>Title:</b> {{ column.title }}</p>
-    <hr><br>
-    {% endfor %}
-    <h1>Taks:</h1>
-    {% for task in tasks %}
-    <p><b>Title:</b> {{ task.title }}</p>
-    <hr><br>
-    {% endfor %}
+    <br><br><hr>
+</div>
 {% endblock %}
