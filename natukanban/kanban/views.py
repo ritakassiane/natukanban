@@ -47,3 +47,9 @@ def done_task(request, task_id):
     tarefa.status = status_
     tarefa.save()
     return redirect('board_main')
+
+
+def delete_task(request, task_id):
+    tarefa = get_object_or_404(Task, id=task_id)
+    tarefa.delete()
+    return redirect('board_main')
