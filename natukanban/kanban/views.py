@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Board, Column, Task
+from .forms import AddTask
 
 def title_to_dict(title_list):
     result = {}
@@ -29,5 +30,13 @@ def board_main(request):
     task_done = Task.objects.filter(status__title="Done")
     tasks = Task.objects.all()
     # tarefas_pendentes = Tarefa.objects.filter(status='pendente')
-    return render(request, 'board/main_board.html', {'main_board':main_board, 'columns': columns, 'tasks':tasks, 'task_in_progress':task_in_progress, 'task_to_do': task_to_do, 'task_done': task_done, 'task_do_today': task_do_today})
+    if request.method == 'POST':
+        form = AddTask(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('board_main')
+    else:
+        form = AddTask()
+
+    return render(request, 'board/main_board.html', {'main_board':main_board, 'columns': columns, 'tasks':tasks, 'task_in_progress':task_in_progress, 'task_to_do': task_to_do, 'task_done': task_done, 'task_do_today': task_do_today, 'form':form})
 

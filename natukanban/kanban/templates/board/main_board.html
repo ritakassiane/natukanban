@@ -3,8 +3,16 @@
 {% block title %}Tarefas{% endblock %}
 
 {% block content %}
+<div class="h-100 p-5 bg-light border rounded-3">
+    <h1>Adicionar Tarefa</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <br>
+      <input type="submit" value="Salvar">
+    </form>
+</div>
 <div class="row">
-    
     {% for column in columns %}      
         <div class="col">
             <div class="title">
