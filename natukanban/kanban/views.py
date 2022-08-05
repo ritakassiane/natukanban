@@ -16,13 +16,23 @@ def board_main(request):
     for column in columns:
         column_list.append(column.title)
     print(title_to_dict(column_list))
-
+    
+    column_status_dict = title_to_dict(column_list)
+    tasks_ = {}
+    for title, tasks in column_status_dict.items():
+        column_status_dict[title]=(Task.objects.filter(status__title=title))
+        print(f'TITULO{title}')
+        print("")
+        print("#############")
+    print(column_status_dict)
+    tasks_ = column_status_dict
     # tasks_ = {'In progress' : Task.objects.filter(status__title="In progress"),
     # 'To do':Task.objects.filter(status__title="To do"),
     # 'Do today':Task.objects.filter(status__title="Do Today"),
     # 'Done':Task.objects.filter(status__title="Done")}
+    print(tasks_)
     
-    # print(tasks_)
+
 
     task_in_progress = Task.objects.filter(status__title="In progress")
     task_to_do = Task.objects.filter(status__title="To do")
@@ -30,6 +40,7 @@ def board_main(request):
     task_done = Task.objects.filter(status__title="Done")
     tasks = Task.objects.all()
     # tarefas_pendentes = Tarefa.objects.filter(status='pendente')
+
     if request.method == 'POST':
         form = AddTask(data=request.POST)
         if form.is_valid():
@@ -38,16 +49,24 @@ def board_main(request):
     else:
         form = AddTask()
 
-    return render(request, 'board/main_board.html', {'main_board':main_board, 'columns': columns, 'tasks':tasks, 'task_in_progress':task_in_progress, 'task_to_do': task_to_do, 'task_done': task_done, 'task_do_today': task_do_today, 'form':form})
+    return render(request, 'board/main_board.html', 
+    {'main_board':main_board, 
+    'columns': columns, 
+    'tasks':tasks, 
+    'task_in_progress':task_in_progress, 
+    'task_to_do': task_to_do, 
+    'task_done': task_done, 
+    'task_do_today': task_do_today, 
+    'tasks_':tasks_,
+    'form':form,
+    })
 
-# novo
 def done_task(request, task_id):
     tarefa = get_object_or_404(Task, id=task_id)
     status_ = Column.objects.get(title='Done')
     tarefa.status = status_
     tarefa.save()
     return redirect('board_main')
-
 
 def delete_task(request, task_id):
     tarefa = get_object_or_404(Task, id=task_id)

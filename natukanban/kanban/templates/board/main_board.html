@@ -4,144 +4,78 @@
 {% block title %}Tarefas{% endblock %}
 
 {% block content %}
+<p>
+    <a class="btn btn-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Adicionar tarefa
+    </a>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      <h1>Adicionar Tarefa</h1>
+      <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <br>
+        <input class="btn btn-success" type="submit" value="Salvar">
+      </form><br><br><br>
+    </div>
+  </div>
 <div class="h-100 p-5 bg-light border rounded-3">
-    <h1>Adicionar Tarefa</h1>
-    <form method="post">
-      {% csrf_token %}
-      {{ form|crispy }}
-      <br>
-      <input class="btn btn-success" type="submit" value="Salvar">
-    </form>
-</div>
-<div class="row">
-    {% for column in columns %}      
-        <div class="col">
-            <div class="title">
-                <p><b>{{ column.title }}</b> </p>
-            </div>
-            <div class="tasks">
-            {% if column.title == 'In progress' %}
-                {% for task in task_in_progress %}      
-                    <button type="button" class="list-group-item list-group-item-warning list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
-                        <h5>{{ task.title }}</h5>
-                        <small>Criado em: {{ task.created_date.day }}/{{ task.created_date.month }}/{{ task.created_date.year }}</small>
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ task.title }} | {{ task.categoria|capfirst }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                            <p>
-                                {{ task.description }} 
-                                <br>
-                                <br>
-                                <a class="btn btn-success" href="{% url 'done_task' task.id %}">Concluir</a>
-                                <a class="btn btn-danger" href="{% url 'delete_task' task.id %}">Deletar</a>
-                                <a class="btn btn-primary" href="{% url 'edit_task' task.id %}">Editar</a>
-                            </p>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                {% if column.title == 'Done' %}
-                {% for task in task_done %}      
-                    <button type="button" class="list-group-item list-group-item-success list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
-                        <h5>{{ task.title }}</h5>
-                        <small>Criado em: {{ task.created_date.day }}/{{ task.created_date.month }}/{{ task.created_date.year }}</small>
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ task.title }} | {{ task.categoria|capfirst }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                            <p>
-                                {{ task.description }}
-                                <br>
-                                <br>
-                                <a class="btn btn-success" href="{% url 'done_task' task.id %}">Concluir</a>
-                                <a class="btn btn-danger" href="{% url 'delete_task' task.id %}">Deletar</a>
-                                <a class="btn btn-primary" href="{% url 'edit_task' task.id %}">Editar</a>
-                            </p>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                {% else %}
-                    {% if column.title == 'To do' %}
-                    {% for task in task_to_do %}      
-                        <button type="button" class="list-group-item list-group-item-danger list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
-                            <h5>{{ task.title }}</h5>
-                            <small>Criado em: {{ task.created_date.day }}/{{ task.created_date.month }}/{{ task.created_date.year }}</small>
+    <div class="row">
+        {% for title, tarefas in tasks_.items %}
+            <div class="col">
+                <div class="title">
+                    <p><b>{{ title }}</b> </p>
+                </div>
+                <div class="tasks">
+                    {% for tasks in tarefas %}
+                    {% if title == 'To do' %}
+                    <button type="button" class="list-group-item list-group-item-danger list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
+                    {% else %}
+                        {% if title == 'Do today' %}
+                        <button type="button" class="list-group-item list-group-item-warning list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
+                        {% else %}
+                        {% if title == 'Done' %}
+                            <button type="button" class="list-group-item list-group-item-success list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
+                        {% else %}
+                        {% if title == 'In progress' %}
+                        <button type="button" class="list-group-item list-group-item-info list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
+                        {% endif %}
+                        {% endif %} 
+                    {% endif %}
+                    {% endif %}
+                            <h5>{{ tasks.title }}</h5>
+                            <small>Vencimento em: {{ tasks.due_date.day }}/{{ tasks.due_date.month }}/{{ tasks.due_date.year }}</small>
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="2" aria-hidden="true">
                             <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">{{ task.title }} | {{ task.categoria|capfirst }}</h5>
+                                <h5 class="modal-title" id="2">{{ tasks.title }} | {{ tasks.categoria|capfirst }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                 <p>
-                                    {{ task.description }}
+                                    {{ tasks.description }} 
                                     <br>
                                     <br>
-                                    <a class="btn btn-success" href="{% url 'done_task' task.id %}">Concluir</a>
-                                    <a class="btn btn-danger" href="{% url 'delete_task' task.id %}">Deletar</a>
-                                    <a class="btn btn-primary" href="{% url 'edit_task' task.id %}">Editar</a>
+                                    <a class="btn btn-success" href="{% url 'done_task' tasks.id %}">Concluir</a>
+                                    <a class="btn btn-danger" href="{% url 'delete_task' tasks.id %}">Deletar</a>
+                                    <a class="btn btn-primary" href="{% url 'edit_task' tasks.id %}">Editar</a>
                                 </p>
                                 </div>
                             </div>
                             </div>
                         </div>
                     {% endfor %}
-                    {% else %}
-                        {% if column.title == 'Do Today' %}
-                        {% for task in task_do_today %}      
-                            <button type="button" class="list-group-item list-group-item-primary list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
-                                <h5>{{ task.title }}</h5>
-                                <small>Criado em: {{ task.created_date.day }}/{{ task.created_date.month }}/{{ task.created_date.year }}</small>
-                            </button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">{{ task.title }} | {{ task.categoria|capfirst }}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                    <p>
-                                        {{ task.description }}
-                                        <br>
-                                        <br>
-                                        <a class="btn btn-success" href="{% url 'done_task' task.id %}">Concluir</a>
-                                        <a class="btn btn-danger" href="{% url 'delete_task' task.id %}">Deletar</a>
-                                        <a class="btn btn-primary" href="{% url 'edit_task' task.id %}">Editar</a>
-                                    </p>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
-            {% endif %}
+                </div>
             </div>
-        </div>
-    {% endfor %}
-    <br><br><hr>
+        {% endfor %}
+
+    </div>
 </div>
+<br><br>
+<br><br>
+<hr>
 {% endblock %}
