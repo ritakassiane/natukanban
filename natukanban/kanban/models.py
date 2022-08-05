@@ -10,9 +10,15 @@ def one_week_hence():
 class Board(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
+
 class Column(models.Model):
     title = models.CharField(max_length=255)
     board = models.ForeignKey("Board", related_name="columns", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 class Task(models.Model):
     
