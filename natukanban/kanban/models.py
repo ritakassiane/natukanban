@@ -18,7 +18,7 @@ class Column(models.Model):
     board = models.ForeignKey("Board", related_name="columns", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.title
 
 class Task(models.Model):
     
