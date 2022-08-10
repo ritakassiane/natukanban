@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+
 {% block title %}Tarefas{% endblock %}
 
 {% block content %}
@@ -21,58 +22,59 @@
     </div>
   </div>
 <div class="h-100 p-5 bg-light border rounded-3">
-    <div class="row">
+    <div class="row columns">
         {% for title, tarefas in tasks_.items %}
-            <div class="col">
+            <div class="col column">
                 <div class="title">
-                    <p><b>{{ title }}</b> </p>
+                    <h3><b>{{ title }}</b> </h3>
                 </div>
-                <div class="tasks">
-                    {% for tasks in tarefas %}
-                    {% if title == 'To do' %}
-                    <button type="button" class="list-group-item list-group-item-danger list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
-                    {% else %}
-                        {% if title == 'Do today' %}
-                        <button type="button" class="list-group-item list-group-item-warning list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
+                <div class="dropzone">
+                    <div class="tasks">
+                        {% for tasks in tarefas %}
+                        {% if title == 'To do' %}
+                        <button type="button" class="card list-group-item list-group-item-danger list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ task.id }}">
                         {% else %}
-                        {% if title == 'Done' %}
-                            <button type="button" class="list-group-item list-group-item-success list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
-                        {% else %}
-                        {% if title == 'In progress' %}
-                        <button type="button" class="list-group-item list-group-item-info list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{ task.id }}">
+                            {% if title == 'Do today' %}
+                            <button type="button" class="card list-group-item list-group-item-warning list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ task.id }}">
+                            {% else %}
+                            {% if title == 'Done' %}
+                                <button type="button" class="card list-group-item list-group-item-success list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ task.id }}">
+                            {% else %}
+                            {% if title == 'In progress' %}
+                            <button type="button" class="card list-group-item list-group-item-info list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ task.id }}">
+                            {% endif %}
+                            {% endif %} 
                         {% endif %}
-                        {% endif %} 
-                    {% endif %}
-                    {% endif %}
-                            <h5>{{ tasks.title }}</h5>
-                            <small>Vencimento em: {{ tasks.due_date.day }}/{{ tasks.due_date.month }}/{{ tasks.due_date.year }}</small>
-                        </button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="2" aria-hidden="true">
-                            <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="2">{{ tasks.title }} | {{ tasks.categoria|capfirst }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        {% endif %}
+                                <h5>{{ tasks.title }}</h5>
+                                <small>Vencimento em: {{ tasks.due_date.day }}/{{ tasks.due_date.month }}/{{ tasks.due_date.year }}</small>
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="2" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="2">{{ tasks.title }} | {{ tasks.categoria|capfirst }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <p>
+                                        {{ tasks.description }} 
+                                        <br>
+                                        <br>
+                                        <a class="btn btn-success" href="{% url 'done_task' tasks.id %}">Concluir</a>
+                                        <a class="btn btn-danger" href="{% url 'delete_task' tasks.id %}">Deletar</a>
+                                        <a class="btn btn-primary" href="{% url 'edit_task' tasks.id %}">Editar</a>
+                                    </p>
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                <p>
-                                    {{ tasks.description }} 
-                                    <br>
-                                    <br>
-                                    <a class="btn btn-success" href="{% url 'done_task' tasks.id %}">Concluir</a>
-                                    <a class="btn btn-danger" href="{% url 'delete_task' tasks.id %}">Deletar</a>
-                                    <a class="btn btn-primary" href="{% url 'edit_task' tasks.id %}">Editar</a>
-                                </p>
                                 </div>
                             </div>
-                            </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         {% endfor %}
-
     </div>
 </div>
 <br><br>
