@@ -32,16 +32,16 @@
                     <div class="tasks">
                         {% for tasks in tarefas %}
                         {% if title == 'To do' %}
-                        <button type="button" class="card list-group-item list-group-item-danger list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ task.id }}">
+                        <button type="button" class="card list-group-item list-group-item-danger list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ tasks.id }}">
                         {% else %}
                             {% if title == 'Do today' %}
-                            <button type="button" class="card list-group-item list-group-item-secondary list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ task.id }}">
+                            <button type="button" class="card list-group-item list-group-item-secondary list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ tasks.id }}">
                             {% else %}
                             {% if title == 'Done' %}
-                                <button type="button" class="card list-group-item list-group-item-success list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ task.id }}">
+                                <button type="button" class="card list-group-item list-group-item-success list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ tasks.id }}">
                             {% else %}
                             {% if title == 'In progress' %}
-                            <button type="button" class="card list-group-item list-group-item-info list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ task.id }}">
+                            <button type="button" class="card list-group-item list-group-item-info list-group-item-action" data-bs-toggle="modal" draggable="true" data-bs-target="#modal{{ tasks.id }}">
                             {% endif %}
                             {% endif %} 
                         {% endif %}
@@ -58,7 +58,7 @@
                                   </div>
                             </button>
                             <!-- Modal -->
-                            <div class="modal fade" id="modal{{ task.id }}" tabindex="-1" aria-labelledby="2" aria-hidden="true">
+                            <div class="modal fade" id="modal{{ tasks.id }}" tabindex="-1" aria-labelledby="2" aria-hidden="true">
                                 <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
